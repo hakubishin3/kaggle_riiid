@@ -4,7 +4,7 @@ from google.cloud import bigquery
 from google.cloud import bigquery_storage_v1beta1
 
 
-class Fold(BaseFeature):
+class CumulativeAppearancesPerUser(BaseFeature):
     def import_columns(self):
         return [
             "1",
@@ -16,25 +16,17 @@ class Fold(BaseFeature):
             train_only_questions AS (
               SELECT
                 row_id,
+                user_id,
+                timestamp,
               FROM
                 riiid.train
               WHERE
                 content_type_id = 0
-            ),
-            fold AS (
-            SELECT
-              train_only_questions.row_id,
-              IF(val_row_id.row_id IS NOT NULL, 1, 0) AS val,
-            FROM
-              train_only_questions
-            LEFT OUTER JOIN
-              riiid.val_row_id AS val_row_id
-              ON train_only_questions.row_id = val_row_id.row_id
             )
             SELECT
-              val,
+              SUM(1) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cnt,
             FROM
-              fold
+              train_only_questions
         """
         self._logger.info(f"{query}")
         query += " order by row_id"
@@ -60,4 +52,4 @@ class Fold(BaseFeature):
 
 
 if __name__ == "__main__":
-    Fold.main()
+    CumulativeAppearancesPerUser.main()

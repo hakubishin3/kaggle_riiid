@@ -10,6 +10,7 @@ from typing import Any, Union, Dict, List
 import pandas as pd
 import lightgbm as lgb
 from sklearn.model_selection import train_test_split
+from google.cloud import storage
 
 
 def upload_to_gcs(bucket_dir_name: str, files: List[str]):
