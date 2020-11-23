@@ -18,6 +18,7 @@ class CumulativeAppearancesPerUser(BaseFeature):
                 row_id,
                 user_id,
                 timestamp,
+                answered_correctly,
               FROM
                 riiid.train
               WHERE
@@ -34,7 +35,7 @@ class CumulativeAppearancesPerUser(BaseFeature):
             SELECT
               cumlative_appearance,
               cumlative_corrected_answers,
-              cumlative_corrected_answers / cumlative_appearance,
+              cumlative_corrected_answers / cumlative_appearance AS average_corrected_answers,
             FROM
               cumulative
         """
