@@ -6,10 +6,23 @@ import random
 import pathlib
 import numpy as np
 import joblib
-from typing import Any, Union, Dict
+from typing import Any, Union, Dict, List
 import pandas as pd
 import lightgbm as lgb
 from sklearn.model_selection import train_test_split
+
+
+def upload_to_gcs(bucket_dir_name: str, files: List[str]):
+    GCS_BUCKET_NAME = "kaggle-riiid-w"
+    PROJECT_ID = "wantedly-individual-shu"
+    client = storage.Client(project=PROJECT_ID)
+    bucket = client.get_bucket(GCS_BUCKET_NAME)
+
+    for filename in files:
+        basename = os.path.basename(filename)
+        blob = storage.Blob(os.path.join(bucket_dir_name, basename), bucket)
+        print(f"Uploading {basename} to {blob.path}")
+        blob.upload_from_filename(str(filename))
 
 
 def adversarial_validation(
@@ -59,10 +72,18 @@ def adversarial_validation(
     return evals_result
 
 
-def seed_everything(seed: int = 71, gpu_mode: bool = False) -> None:
+def seed_everything(seed: int=71, gpu_mode: bool=False):
     random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
     np.random.seed(seed)
+
+    if gpu_mode:
+        import tensorflow as tf
+        import torch
+        tf.random.set_seed(seed)
+        torch.manual_seed(seed)
+        torch.cuda.manual_seed(seed)
+        torch.backends.cudnn.deterministic = True
 
 
 class MyEncoder(json.JSONEncoder):
