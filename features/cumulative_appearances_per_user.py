@@ -22,11 +22,21 @@ class CumulativeAppearancesPerUser(BaseFeature):
                 riiid.train
               WHERE
                 content_type_id = 0
+            ),
+            cumulative AS (
+              SELECT
+                row_id,
+                SUM(1) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_appearance,
+                SUM(answered_correctly) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_corrected_answers,
+              FROM
+                train_only_questions
             )
             SELECT
-              SUM(1) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cnt,
+              cumlative_appearance,
+              cumlative_corrected_answers,
+              cumlative_corrected_answers / cumlative_appearance,
             FROM
-              train_only_questions
+              cumulative
         """
         self._logger.info(f"{query}")
         query += " order by row_id"
