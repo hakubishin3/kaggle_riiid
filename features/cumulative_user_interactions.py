@@ -4,7 +4,7 @@ from google.cloud import bigquery
 from google.cloud import bigquery_storage_v1beta1
 
 
-class CumulativeUserInteractionsPerUser(BaseFeature):
+class CumulativeUserInteractions(BaseFeature):
     def import_columns(self):
         return [
             "1",
@@ -27,15 +27,15 @@ class CumulativeUserInteractionsPerUser(BaseFeature):
             cumulative AS (
               SELECT
                 row_id,
-                SUM(1) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_appearance,
-                SUM(answered_correctly) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_corrected_answers,
+                SUM(1) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_appearance_per_user,
+                SUM(answered_correctly) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_corrected_answers_per_user,
               FROM
                 train_only_questions
             )
             SELECT
-              cumlative_appearance,
-              cumlative_corrected_answers,
-              cumlative_corrected_answers / cumlative_appearance AS average_corrected_answers,
+              cumlative_appearance_per_user,
+              cumlative_corrected_answers_per_user,
+              cumlative_corrected_answers_per_user / cumlative_appearance_per_user AS average_corrected_answers_per_user,
             FROM
               cumulative
         """
@@ -63,4 +63,4 @@ class CumulativeUserInteractionsPerUser(BaseFeature):
 
 
 if __name__ == "__main__":
-    CumulativeUserInteractionsPerUser.main()
+    CumulativeUserInteractions.main()
