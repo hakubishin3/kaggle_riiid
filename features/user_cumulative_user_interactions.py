@@ -4,7 +4,7 @@ from google.cloud import bigquery
 from google.cloud import bigquery_storage_v1beta1
 
 
-class CumulativeUserInteractions(BaseFeature):
+class UserCumulativeUserInteractions(BaseFeature):
     def import_columns(self):
         return [
             "1",
@@ -27,8 +27,9 @@ class CumulativeUserInteractions(BaseFeature):
             cumulative AS (
               SELECT
                 row_id,
-                SUM(1) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_appearance_per_user,
-                SUM(answered_correctly) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumlative_corrected_answers_per_user,
+                -- leakを防ぐために, 過去レコードから現時点の1つ前のレコードまでを計算範囲とする
+                SUM(1) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS cumlative_appearance_per_user,
+                SUM(answered_correctly) OVER (PARTITION BY user_id ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS cumlative_corrected_answers_per_user,
               FROM
                 train_only_questions
             )
@@ -63,4 +64,4 @@ class CumulativeUserInteractions(BaseFeature):
 
 
 if __name__ == "__main__":
-    CumulativeUserInteractions.main()
+    UserCumulativeUserInteractions.main()

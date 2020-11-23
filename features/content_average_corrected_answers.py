@@ -4,7 +4,7 @@ from google.cloud import bigquery
 from google.cloud import bigquery_storage_v1beta1
 
 
-class AverageCorrectedAnswers(BaseFeature):
+class ContentAverageCorrectedAnswers(BaseFeature):
     def import_columns(self):
         return [
             "1",
@@ -78,4 +78,4 @@ class AverageCorrectedAnswers(BaseFeature):
 
 
 if __name__ == "__main__":
-    AverageCorrectedAnswers.main()
+    ContentAverageCorrectedAnswers.main()

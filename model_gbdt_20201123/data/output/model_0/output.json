@@ -1,7 +1,5 @@
 {
-    "model_dir_name":
-        "model_gbdt_20201123"
-    ,
+    "model_dir_name": "model_gbdt_20201123",
     "features": [
         "LabelEncoding",
         "NumericFeatures",
@@ -29,7 +27,8 @@
             "bagging_seed": 71,
             "feature_fraction_seed": 71,
             "drop_seed": 71,
-            "verbose": -1
+            "verbose": -1,
+            "nthread": 16
         },
         "train_params": {
             "early_stopping_rounds": 10,
@@ -41,5 +40,23 @@
         "intermediate_directory": "data/interim/",
         "feature_directory": "data/features/",
         "output_directory": "data/output/"
+    },
+    "args": {
+        "config": "model_gbdt_20201123/configs/model_0.json",
+        "debug": false
+    },
+    "model_output_dir": "model_gbdt_20201123/data/output/model_0",
+    "evals_result": {
+        "n_data": 99271300,
+        "n_features": 7,
+        "oof_score": {
+            "auc": 0.7585875265287959
+        },
+        "cv_score": {
+            "cv1": {
+                "auc": 0.7585875265287959
+            }
+        },
+        "best_iteration": 1303.0
     }
 }
