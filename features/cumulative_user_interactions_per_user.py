@@ -39,10 +39,10 @@ class CumulativeUserInteractionsPerUser(BaseFeature):
             FROM
               cumulative
         """
-        self._logger.info(f"{query}")
         query += " order by row_id"
         if self.debugging:
             query += " limit 10000"
+        self._logger.info(f"{query}")
 
         bqclient = bigquery.Client(project=self.PROJECT_ID)
         bqstorageclient = bigquery_storage_v1beta1.BigQueryStorageClient()
