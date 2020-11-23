@@ -4,7 +4,7 @@ from google.cloud import bigquery
 from google.cloud import bigquery_storage_v1beta1
 
 
-class CumulativeAppearancesPerUser(BaseFeature):
+class CumulativeUserInteractionsPerUser(BaseFeature):
     def import_columns(self):
         return [
             "1",
@@ -63,4 +63,4 @@ class CumulativeAppearancesPerUser(BaseFeature):
 
 
 if __name__ == "__main__":
-    CumulativeAppearancesPerUser.main()
+    CumulativeUserInteractionsPerUser.main()
