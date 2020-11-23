@@ -207,48 +207,43 @@ tool = ["click"]
 
 [[package]]
 name = "google-cloud-bigquery"
-version = "2.4.0"
+version = "1.20.0"
 description = "Google BigQuery API client library"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 
 [package.dependencies]
-google-api-core = {version = ">=1.23.0,<2.0.0dev", extras = ["grpc"]}
-google-cloud-bigquery-storage = {version = ">=2.0.0,<3.0.0dev", optional = true, markers = "extra == \"bqstorage\""}
-google-cloud-core = ">=1.4.1,<2.0dev"
-google-resumable-media = ">=0.6.0,<2.0dev"
-grpcio = {version = ">=1.32.0,<2.0dev", optional = true, markers = "extra == \"bqstorage\""}
-pandas = {version = ">=0.23.0", optional = true, markers = "extra == \"pandas\""}
-proto-plus = ">=1.10.0"
-protobuf = ">=3.12.0"
-pyarrow = {version = ">=1.0.0,<3.0dev", optional = true, markers = "extra == \"bqstorage\""}
-six = ">=1.13.0,<2.0.0dev"
+google-cloud-bigquery-storage = {version = ">=0.6.0,<2.0.0dev", optional = true, markers = "extra == \"bqstorage\""}
+google-cloud-core = ">=1.0.3,<2.0dev"
+google-resumable-media = ">=0.3.1"
+pandas = {version = ">=0.17.1", optional = true, markers = "extra == \"pandas\""}
+protobuf = ">=3.6.0"
+pyarrow = {version = ">=0.13.0,<0.14.0 || >0.14.0", optional = true, markers = "extra == \"bqstorage\""}
 
 [package.extras]
-all = ["google-cloud-bigquery-storage (>=2.0.0,<3.0.0dev)", "grpcio (>=1.32.0,<2.0dev)", "pyarrow (>=1.0.0,<3.0dev)", "pandas (>=0.23.0)", "tqdm (>=4.7.4,<5.0.0dev)", "opentelemetry-api (==0.9b0)", "opentelemetry-sdk (==0.9b0)", "opentelemetry-instrumentation (==0.9b0)"]
-bqstorage = ["google-cloud-bigquery-storage (>=2.0.0,<3.0.0dev)", "grpcio (>=1.32.0,<2.0dev)", "pyarrow (>=1.0.0,<3.0dev)"]
-opentelemetry = ["opentelemetry-api (==0.9b0)", "opentelemetry-sdk (==0.9b0)", "opentelemetry-instrumentation (==0.9b0)"]
-pandas = ["pandas (>=0.23.0)", "pyarrow (>=1.0.0,<3.0dev)"]
-tqdm = ["tqdm (>=4.7.4,<5.0.0dev)"]
+all = ["google-cloud-bigquery-storage (>=0.6.0,<2.0.0dev)", "pyarrow (>=0.13.0,!=0.14.0)", "pandas (>=0.17.1)", "pyarrow (>=0.4.1,!=0.14.0)", "tqdm (>=4.0.0,<5.0.0dev)"]
+bqstorage = ["google-cloud-bigquery-storage (>=0.6.0,<2.0.0dev)", "pyarrow (>=0.13.0,!=0.14.0)"]
+fastparquet = ["fastparquet", "python-snappy"]
+pandas = ["pandas (>=0.17.1)"]
+pyarrow = ["pyarrow (>=0.4.1,!=0.14.0)"]
+tqdm = ["tqdm (>=4.0.0,<5.0.0dev)"]
 
 [[package]]
 name = "google-cloud-bigquery-storage"
-version = "2.1.0"
+version = "0.8.0"
 description = "BigQuery Storage API API client library"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 
 [package.dependencies]
-google-api-core = {version = ">=1.22.2,<2.0.0dev", extras = ["grpc"]}
-libcst = ">=0.2.5"
-proto-plus = ">=1.4.0"
+google-api-core = {version = ">=1.14.0,<2.0.0dev", extras = ["grpc"]}
 
 [package.extras]
 fastavro = ["fastavro (>=0.21.2)"]
 pandas = ["pandas (>=0.17.1)"]
-pyarrow = ["pyarrow (>=0.15.0)"]
+pyarrow = ["pyarrow (>=0.13.0,!=0.14.0)"]
 
 [[package]]
 name = "google-cloud-core"
@@ -436,22 +431,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
-name = "libcst"
-version = "0.3.14"
-description = "A concrete syntax tree with AST-like properties for Python 3.5, 3.6, 3.7 and 3.8 programs."
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-pyyaml = ">=5.2"
-typing-extensions = ">=3.7.4.2"
-typing-inspect = ">=0.4.0"
-
-[package.extras]
-dev = ["black (==20.8b1)", "codecov (>=2.1.4)", "coverage (>=4.5.4)", "fixit (==0.1.1)", "flake8 (>=3.7.8)", "hypothesis (>=4.36.0)", "hypothesmith (>=0.0.4)", "isort (==5.5.3)", "jupyter (>=1.0.0)", "nbsphinx (>=0.4.2)", "pyre-check (==0.0.41)", "sphinx-rtd-theme (>=0.4.3)", "prompt-toolkit (>=2.0.9)", "tox (>=3.18.1)"]
-
-[[package]]
 name = "lightgbm"
 version = "3.1.0"
 description = "LightGBM Python Package"
@@ -508,7 +487,7 @@ dmypy = ["psutil (>=4.0)"]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -637,20 +616,6 @@ python-versions = ">=3.6.1"
 wcwidth = "*"
 
 [[package]]
-name = "proto-plus"
-version = "1.11.0"
-description = "Beautiful, Pythonic protocol buffers."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-protobuf = ">=3.12.0"
-
-[package.extras]
-testing = ["google-api-core[grpc] (>=1.22.2)"]
-
-[[package]]
 name = "protobuf"
 version = "3.14.0"
 description = "Protocol Buffers"
@@ -768,14 +733,6 @@ description = "World timezone definitions, modern and historical"
 category = "main"
 optional = false
 python-versions = "*"
-
-[[package]]
-name = "pyyaml"
-version = "5.3.1"
-description = "YAML parser and emitter for Python"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "regex"
@@ -1009,18 +966,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "typing-inspect"
-version = "0.6.0"
-description = "Runtime inspection utilities for typing module."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-mypy-extensions = ">=0.3.0"
-typing-extensions = ">=3.7.4"
-
-[[package]]
 name = "urllib3"
 version = "1.26.2"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -1052,7 +997,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "7812b5a3a6ab7cb811f83a38e9b5e18a907c7103d402d76a67bf0733a1f74fe1"
+content-hash = "c775e2d214494a02e177d3943cf486b1eb949339d556da11ba052c6cf4f69762"
 
 [metadata.files]
 appdirs = [
@@ -1164,12 +1109,12 @@ google-auth-oauthlib = [
     {file = "google_auth_oauthlib-0.4.2-py2.py3-none-any.whl", hash = "sha256:d4d98c831ea21d574699978827490a41b94f05d565c617fe1b420e88f1fc8d8d"},
 ]
 google-cloud-bigquery = [
-    {file = "google-cloud-bigquery-2.4.0.tar.gz", hash = "sha256:2d53d6fed1c25c9c0ce361dad1c64203c96b2344f7156357a501630d1cb08445"},
-    {file = "google_cloud_bigquery-2.4.0-py2.py3-none-any.whl", hash = "sha256:26950eb22a328d4124b44f1b98bf75bcafb61abe211444cd2609d745c36e5598"},
+    {file = "google-cloud-bigquery-1.20.0.tar.gz", hash = "sha256:dcfc66b2c25a26a6ebaa3e94b597330be2672dc9a94c8658baa9ede0cd969710"},
+    {file = "google_cloud_bigquery-1.20.0-py2.py3-none-any.whl", hash = "sha256:2ece927eb439ca5659fa82863f6f13ee202f3b20504fec02f087e5ba8eec16fd"},
 ]
 google-cloud-bigquery-storage = [
-    {file = "google-cloud-bigquery-storage-2.1.0.tar.gz", hash = "sha256:7da8691d218e494e2688f3c72cf4249d504b0a55fe41cb1ac6e7903c1e03a3d4"},
-    {file = "google_cloud_bigquery_storage-2.1.0-py2.py3-none-any.whl", hash = "sha256:a85600e203da29f220ab73e9b77bc521a31204cdef79b0ced37e9298e63b135f"},
+    {file = "google-cloud-bigquery-storage-0.8.0.tar.gz", hash = "sha256:37bbe332d1b1b2e8f6496d2c62bfece2a172c4d884e58afa00651fef3ae879e5"},
+    {file = "google_cloud_bigquery_storage-0.8.0-py2.py3-none-any.whl", hash = "sha256:ce0568c0a4009756997ce2edb849ee31ff15d9855630ddb146c7c87b442a8c90"},
 ]
 google-cloud-core = [
     {file = "google-cloud-core-1.4.3.tar.gz", hash = "sha256:21afb70c1b0bce8eeb8abb5dca63c5fd37fc8aea18f4b6d60e803bd3d27e6b80"},
@@ -1335,10 +1280,6 @@ lazy-object-proxy = [
     {file = "lazy_object_proxy-1.4.3-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:a6ae12d08c0bf9909ce12385803a543bfe99b95fe01e752536a60af2b7797c62"},
     {file = "lazy_object_proxy-1.4.3-cp38-cp38-win32.whl", hash = "sha256:5541cada25cd173702dbd99f8e22434105456314462326f06dba3e180f203dfd"},
     {file = "lazy_object_proxy-1.4.3-cp38-cp38-win_amd64.whl", hash = "sha256:59f79fef100b09564bc2df42ea2d8d21a64fdcda64979c0fa3db7bdaabaf6239"},
-]
-libcst = [
-    {file = "libcst-0.3.14-py3-none-any.whl", hash = "sha256:f6250eaf4dadeb55943739fddb7fdfdfa118201e90c15f9ccd20679877b404ae"},
-    {file = "libcst-0.3.14.tar.gz", hash = "sha256:2ce363a6c46ac0100f6b0f72f6a4dd2116e1e1d84259e229d580d30a6d086d84"},
 ]
 lightgbm = [
     {file = "lightgbm-3.1.0-py2.py3-none-macosx_10_13_x86_64.macosx_10_14_x86_64.macosx_10_15_x86_64.whl", hash = "sha256:b41526e7dc7b79f1dcd267e62e1923a3774ccced370aab28cd75e5ff0f9fcbd8"},
@@ -1521,9 +1462,6 @@ prompt-toolkit = [
     {file = "prompt_toolkit-3.0.8-py3-none-any.whl", hash = "sha256:7debb9a521e0b1ee7d2fe96ee4bd60ef03c6492784de0547337ca4433e46aa63"},
     {file = "prompt_toolkit-3.0.8.tar.gz", hash = "sha256:25c95d2ac813909f813c93fde734b6e44406d1477a9faef7c915ff37d39c0a8c"},
 ]
-proto-plus = [
-    {file = "proto-plus-1.11.0.tar.gz", hash = "sha256:416a0f13987789333cd8760a0ee998f8eccd6d7165ee9f283d64ca2de3e8774d"},
-]
 protobuf = [
     {file = "protobuf-3.14.0-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:629b03fd3caae7f815b0c66b41273f6b1900a579e2ccb41ef4493a4f5fb84f3a"},
     {file = "protobuf-3.14.0-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:5b7a637212cc9b2bcf85dd828b1178d19efdf74dbfe1ddf8cd1b8e01fdaaa7f5"},
@@ -1632,19 +1570,6 @@ python-dateutil = [
 pytz = [
     {file = "pytz-2020.4-py2.py3-none-any.whl", hash = "sha256:5c55e189b682d420be27c6995ba6edce0c0a77dd67bfbe2ae6607134d5851ffd"},
     {file = "pytz-2020.4.tar.gz", hash = "sha256:3e6b7dd2d1e0a59084bcee14a17af60c5c562cdc16d828e8eba2e683d3a7e268"},
-]
-pyyaml = [
-    {file = "PyYAML-5.3.1-cp27-cp27m-win32.whl", hash = "sha256:74809a57b329d6cc0fdccee6318f44b9b8649961fa73144a98735b0aaf029f1f"},
-    {file = "PyYAML-5.3.1-cp27-cp27m-win_amd64.whl", hash = "sha256:240097ff019d7c70a4922b6869d8a86407758333f02203e0fc6ff79c5dcede76"},
-    {file = "PyYAML-5.3.1-cp35-cp35m-win32.whl", hash = "sha256:4f4b913ca1a7319b33cfb1369e91e50354d6f07a135f3b901aca02aa95940bd2"},
-    {file = "PyYAML-5.3.1-cp35-cp35m-win_amd64.whl", hash = "sha256:cc8955cfbfc7a115fa81d85284ee61147059a753344bc51098f3ccd69b0d7e0c"},
-    {file = "PyYAML-5.3.1-cp36-cp36m-win32.whl", hash = "sha256:7739fc0fa8205b3ee8808aea45e968bc90082c10aef6ea95e855e10abf4a37b2"},
-    {file = "PyYAML-5.3.1-cp36-cp36m-win_amd64.whl", hash = "sha256:69f00dca373f240f842b2931fb2c7e14ddbacd1397d57157a9b005a6a9942648"},
-    {file = "PyYAML-5.3.1-cp37-cp37m-win32.whl", hash = "sha256:d13155f591e6fcc1ec3b30685d50bf0711574e2c0dfffd7644babf8b5102ca1a"},
-    {file = "PyYAML-5.3.1-cp37-cp37m-win_amd64.whl", hash = "sha256:73f099454b799e05e5ab51423c7bcf361c58d3206fa7b0d555426b1f4d9a3eaf"},
-    {file = "PyYAML-5.3.1-cp38-cp38-win32.whl", hash = "sha256:06a0d7ba600ce0b2d2fe2e78453a470b5a6e000a985dd4a4e54e436cc36b0e97"},
-    {file = "PyYAML-5.3.1-cp38-cp38-win_amd64.whl", hash = "sha256:95f71d2af0ff4227885f7a6605c37fd53d3a106fcab511b8860ecca9fcf400ee"},
-    {file = "PyYAML-5.3.1.tar.gz", hash = "sha256:b8eac752c5e14d3eca0e6dd9199cd627518cb5ec06add0de9d32baeee6fe645d"},
 ]
 regex = [
     {file = "regex-2020.11.13-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:8b882a78c320478b12ff024e81dc7d43c1462aa4a3341c754ee65d857a521f85"},
@@ -1854,11 +1779,6 @@ typing-extensions = [
     {file = "typing_extensions-3.7.4.3-py2-none-any.whl", hash = "sha256:dafc7639cde7f1b6e1acc0f457842a83e722ccca8eef5270af2d74792619a89f"},
     {file = "typing_extensions-3.7.4.3-py3-none-any.whl", hash = "sha256:7cb407020f00f7bfc3cb3e7881628838e69d8f3fcab2f64742a5e76b2f841918"},
     {file = "typing_extensions-3.7.4.3.tar.gz", hash = "sha256:99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c"},
-]
-typing-inspect = [
-    {file = "typing_inspect-0.6.0-py2-none-any.whl", hash = "sha256:de08f50a22955ddec353876df7b2545994d6df08a2f45d54ac8c05e530372ca0"},
-    {file = "typing_inspect-0.6.0-py3-none-any.whl", hash = "sha256:3b98390df4d999a28cf5b35d8b333425af5da2ece8a4ea9e98f71e7591347b4f"},
-    {file = "typing_inspect-0.6.0.tar.gz", hash = "sha256:8f1b1dd25908dbfd81d3bebc218011531e7ab614ba6e5bf7826d887c834afab7"},
 ]
 urllib3 = [
     {file = "urllib3-1.26.2-py2.py3-none-any.whl", hash = "sha256:d8ff90d979214d7b4f8ce956e80f4028fc6860e4431f731ea4a8c08f23f99473"},

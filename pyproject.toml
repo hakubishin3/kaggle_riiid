@@ -18,7 +18,7 @@ torch = "^1.7.0"
 transformers = "^3.5.1"
 pyarrow = "^2.0.0"
 lightgbm = "^3.1.0"
-google-cloud-bigquery-storage = "^2.1.0"
+google-cloud-bigquery-storage = "0.8.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.19.0"
