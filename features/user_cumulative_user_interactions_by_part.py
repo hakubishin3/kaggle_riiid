@@ -17,15 +17,15 @@ class UserCumulativeUserInteractionsByPart(BaseFeature):
             SELECT
               row_id,
               -- leakを防ぐために, 過去レコードから現時点の1つ前のレコードまでを計算範囲とする
-              SUM(1) OVER (PARTITION BY user_id, part ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS cumlative_appearance_per_user,
-              SUM(answered_correctly) OVER (PARTITION BY user_id, part ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS cumlative_corrected_answers_per_user,
+              SUM(1) OVER (PARTITION BY user_id, part ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS cumlative_user_appearance,
+              SUM(answered_correctly) OVER (PARTITION BY user_id, part ORDER BY timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS cumlative_user_corrected_answers,
             FROM
               `wantedly-individual-shu.riiid.train_questions`
           )
           SELECT
-            cumlative_appearance_per_user,
-            cumlative_corrected_answers_per_user,
-            cumlative_corrected_answers_per_user / cumlative_appearance_per_user AS average_corrected_answers_per_user,
+            cumlative_user_appearance,
+            cumlative_user_corrected_answers,
+            cumlative_user_corrected_answers / cumlative_user_appearance AS mean_user_accuracy,
           FROM
             cumulative
         """
