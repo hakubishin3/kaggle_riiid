@@ -109,6 +109,13 @@ def main():
         x_train, y_train, folds_ids)
     config.update(evals_result)
 
+    # Save importances
+    importances.mean(axis=1).reset_index().rename(
+        columns={"index": "feature", 0: "value"}
+    ).sort_values("value", ascending=False).to_csv(
+        model_output_dir / "importances.csv", index=False
+    )
+
     # Save oof-pred file
     oof_preds_file_name = f"oof_pred"
     np.save(model_output_dir / oof_preds_file_name, oof_preds)
