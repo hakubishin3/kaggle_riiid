@@ -13,46 +13,24 @@ class ContentAverageCorrectedAnswers(BaseFeature):
     def _read_features_from_bigquery(self) -> pd.DataFrame:
         query = """
           WITH
-          train_only_questions AS (
-            SELECT
-              row_id,
-              timestamp,
-              user_id,
-              content_id,
-              answered_correctly,
-            FROM
-              riiid.train
-            WHERE
-              content_type_id = 0
-          ),
-          fold AS (
-          SELECT
-            train_only_questions.*,
-            IF(val_row_id.row_id IS NOT NULL, 1, 0) AS val,
-          FROM
-            train_only_questions
-          LEFT OUTER JOIN
-            riiid.val_row_id AS val_row_id
-            ON train_only_questions.row_id = val_row_id.row_id
-          ),
           aggregation_per_content AS (
             SELECT
               content_id,
-              AVG(answered_correctly) AS corrected_answers_rate
+              AVG(answered_correctly) AS accuracy
             FROM
-              fold
+              `wantedly-individual-shu.riiid.train_questions`
             WHERE
               val = 0   -- use only train
             GROUP BY
               content_id
           )
           SELECT
-            aggregation_per_content.corrected_answers_rate,
+            aggregation_per_content.accuracy AS mean_content_accuracy,
           FROM
-            train_only_questions
+            `wantedly-individual-shu.riiid.train_questions` AS train_questions
           LEFT OUTER JOIN
             aggregation_per_content
-            ON train_only_questions.content_id = aggregation_per_content.content_id
+            ON train_questions.content_id = aggregation_per_content.content_id
         """
         query += " order by row_id"
         if self.debugging:
