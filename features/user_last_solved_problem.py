@@ -12,11 +12,27 @@ class UserLastSolvedProblem(BaseFeature):
 
     def _read_features_from_bigquery(self) -> pd.DataFrame:
         query = """
+            WITH
+            aggregation_per_content AS (
+              SELECT
+                content_id,
+                AVG(answered_correctly) AS mean_content_accuracy
+              FROM
+                `wantedly-individual-shu.riiid.train_questions`
+              WHERE
+                val = 0   -- use only train
+              GROUP BY
+                content_id
+            )
             SELECT
-              LAG(answered_correctly) OVER(PARTITION BY user_id ORDER BY timestamp) AS prior_answered_correctly,
-              IF(part = LAG(part) OVER(PARTITION BY user_id ORDER BY timestamp), 1, 0) AS prior_same_part,
+              LAG(train_questions.answered_correctly) OVER(PARTITION BY train_questions.user_id ORDER BY train_questions.timestamp) AS prior_answered_correctly,
+              IF(train_questions.part = LAG(train_questions.part) OVER(PARTITION BY train_questions.user_id ORDER BY train_questions.timestamp), 1, 0) AS prior_same_part,
+              LAG(aggregation_per_content.mean_content_accuracy) OVER(PARTITION BY train_questions.user_id ORDER BY train_questions.timestamp) AS prior_mean_content_accuracy,
             FROM
-            `wantedly-individual-shu.riiid.train_questions`
+              `wantedly-individual-shu.riiid.train_questions` AS train_questions
+            LEFT OUTER JOIN
+              aggregation_per_content
+              ON train_questions.content_id = aggregation_per_content.content_id
         """
         query += " order by row_id"
         if self.debugging:
