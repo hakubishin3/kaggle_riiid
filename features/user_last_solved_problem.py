@@ -28,6 +28,8 @@ class UserLastSolvedProblem(BaseFeature):
               LAG(train_questions.answered_correctly) OVER(PARTITION BY train_questions.user_id ORDER BY train_questions.timestamp) AS prior_answered_correctly,
               IF(train_questions.part = LAG(train_questions.part) OVER(PARTITION BY train_questions.user_id ORDER BY train_questions.timestamp), 1, 0) AS prior_same_part,
               LAG(aggregation_per_content.mean_content_accuracy) OVER(PARTITION BY train_questions.user_id ORDER BY train_questions.timestamp) AS prior_mean_content_accuracy,
+              CASE WHEN aggregation_per_content.mean_content_accuracy = 0 THEN -999
+                   ELSE (LAG(aggregation_per_content.mean_content_accuracy) OVER(PARTITION BY train_questions.user_id ORDER BY train_questions.timestamp) - aggregation_per_content.mean_content_accuracy) / aggregation_per_content.mean_content_accuracy END AS change_rate_mean_content_accuracy,
             FROM
               `wantedly-individual-shu.riiid.train_questions` AS train_questions
             LEFT OUTER JOIN
