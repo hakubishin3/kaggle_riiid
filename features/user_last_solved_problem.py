@@ -13,14 +13,24 @@ class UserLastSolvedProblem(BaseFeature):
     def _read_features_from_bigquery(self) -> pd.DataFrame:
         query = """
             WITH
+            train AS (
+              SELECT
+                content_id,
+                val,
+                answered_correctly,
+                row_number() over(partition by user_id, content_id order by timestamp) as rank
+              FROM
+                `wantedly-individual-shu.riiid.train_questions`
+            ),
             aggregation_per_content AS (
               SELECT
                 content_id,
                 AVG(answered_correctly) AS mean_content_accuracy
               FROM
-                `wantedly-individual-shu.riiid.train_questions`
+                train
               WHERE
                 val = 0   -- use only train
+                AND rank = 1   -- 各ユーザの1回目の正解データのみ使う
               GROUP BY
                 content_id
             )
