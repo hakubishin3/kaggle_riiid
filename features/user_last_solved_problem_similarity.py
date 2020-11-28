@@ -46,10 +46,10 @@ class UserLastSolvedProblemSimilarity(BaseFeature):
           FROM
             train AS train
           LEFT OUTER JOIN
-            `wantedly-individual-shu.riiid.content_embedding_nmf10_v2` AS content_vec
+            `wantedly-individual-shu.riiid.content_embedding_lda10` AS content_vec
             ON train.content_id = content_vec.content_id
           LEFT OUTER JOIN
-            `wantedly-individual-shu.riiid.content_embedding_nmf10_v2` AS user_vec
+            `wantedly-individual-shu.riiid.content_embedding_lda10` AS user_vec
             ON train.prior_content_id = user_vec.content_id
         """
         query += " order by row_id"
