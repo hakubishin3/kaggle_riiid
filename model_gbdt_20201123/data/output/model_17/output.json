@@ -1,0 +1,69 @@
+{
+    "model_dir_name": "model_gbdt_20201123",
+    "features": [
+        "LabelEncoding",
+        "NumericFeatures",
+        "UserCumulativeUserInteractions",
+        "ContentAverageCorrectedAnswers",
+        "ContentNumberOfAnswers",
+        "ContentNumberOfAnswersAfterSecondTime",
+        "UserCumulativeUserInteractionsByPart",
+        "UserLastSolvedProblem",
+        "UserLecturedAtLeastOnce",
+        "UserAnsweredInThePast",
+        "UserLastSolvedProblemSimilarity"
+    ],
+    "target": [
+        "Target"
+    ],
+    "folds": [
+        "Fold"
+    ],
+    "model": {
+        "name": "lightgbm",
+        "model_params": {
+            "boosting_type": "gbdt",
+            "objective": "binary",
+            "learning_rate": 0.1,
+            "max_depth": 8,
+            "subsample": 0.7,
+            "subsample_freq": 1,
+            "colsample_bytree": 0.7,
+            "num_iterations": 2000,
+            "seed": 71,
+            "bagging_seed": 71,
+            "feature_fraction_seed": 71,
+            "drop_seed": 71,
+            "verbose": -1,
+            "nthread": 32
+        },
+        "train_params": {
+            "early_stopping_rounds": 10,
+            "verbose": 50
+        }
+    },
+    "dataset": {
+        "input_directory": "data/input/",
+        "intermediate_directory": "data/interim/",
+        "feature_directory": "data/features/",
+        "output_directory": "data/output/"
+    },
+    "args": {
+        "config": "model_gbdt_20201123/configs/model_17.json",
+        "debug": false
+    },
+    "model_output_dir": "model_gbdt_20201123/data/output/model_17",
+    "evals_result": {
+        "n_data": 99271300,
+        "n_features": 41,
+        "oof_score": {
+            "auc": 0.7835014373429853
+        },
+        "cv_score": {
+            "cv1": {
+                "auc": 0.7835014373429853
+            }
+        },
+        "best_iteration": 2000.0
+    }
+}
